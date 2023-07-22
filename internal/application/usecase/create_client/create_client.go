@@ -1,8 +1,8 @@
-package usecase
+package create_client
 
 import (
 	"github.com/loxt/walletcore/internal/domain/entity"
-	"github.com/loxt/walletcore/internal/domain/repository"
+	"github.com/loxt/walletcore/internal/domain/gateway"
 	"time"
 )
 
@@ -20,12 +20,12 @@ type CreateClientOutputDTO struct {
 }
 
 type CreateClientUseCase struct {
-	ClientRepository repository.ClientRepository
+	ClientGateway gateway.ClientGateway
 }
 
-func NewCreateClientUseCase(clientRepository repository.ClientRepository) *CreateClientUseCase {
+func NewCreateClientUseCase(clientGateway gateway.ClientGateway) *CreateClientUseCase {
 	return &CreateClientUseCase{
-		ClientRepository: clientRepository,
+		ClientGateway: clientGateway,
 	}
 }
 
@@ -35,7 +35,7 @@ func (uc *CreateClientUseCase) Execute(input *CreateClientInputDTO) (*CreateClie
 		return nil, err
 	}
 
-	err = uc.ClientRepository.Save(client)
+	err = uc.ClientGateway.Save(client)
 	if err != nil {
 		return nil, err
 	}
